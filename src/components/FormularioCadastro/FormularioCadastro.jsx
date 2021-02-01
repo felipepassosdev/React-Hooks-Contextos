@@ -8,7 +8,7 @@ import DadosPessoais from "./DadosPessoais";
 
 //Essa maneira de trabalhar com propriedades é chamada de prop drilling e é considerada uma má prática.
 
-function FormularioCadastro({aoEnviar, validacoes }) {
+function FormularioCadastro({aoEnviar}) {
   const [step, setStep] = useState(0)
   const [dadosColetados, setDadosColetados] = useState({})
 
@@ -20,9 +20,9 @@ function FormularioCadastro({aoEnviar, validacoes }) {
   })
 
   const formularios = [
-    <DadosDeUsuario aoEnviar={coletarDados} validacoes={validacoes}/>,
-    <DadosPessoais aoEnviar={coletarDados} validacoes={validacoes}/>,
-    <DadosDeEntrega aoEnviar={coletarDados} validacoes={validacoes}/>,
+    <DadosDeUsuario aoEnviar={coletarDados}/>,
+    <DadosPessoais aoEnviar={coletarDados}/>,
+    <DadosDeEntrega aoEnviar={coletarDados}/>,
     <Typography variant='h5'>Obrigado pelo Cadastro</Typography>
   ]
   

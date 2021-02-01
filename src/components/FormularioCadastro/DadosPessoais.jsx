@@ -1,108 +1,54 @@
-import React, { useState } from "react";
-import { TextField, Button, Switch, FormControlLabel } from "@material-ui/core";
+import React, { useState, useContext } from "react";
+import { TextField, Button } from "@material-ui/core";
+import ValidacoesCadastro from "../../contexts/Validacoes";
+import useErros from "../../hooks/useErros";
 
-function DadosPessoais({ aoEnviar, validacoes }) {
-  const [nome, setNome] = useState("");
-  const [sobrenome, setSobrenome] = useState("");
-  const [cpf, setCpf] = useState("");
-  const [promocoes, setPromocoes] = useState(true);
-  const [novidades, setNovidades] = useState(false);
-  const [erros, setErros] = useState({ cpf: { valido: true, texto: "" }, nome: { valido: true, texto: "" } });
+function DadosUsuario({ aoEnviar }) {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const validacoes = useContext(ValidacoesCadastro)
+  const [erros, validarCampos, possoEnviar] = useErros(validacoes);
 
-  function validarCampos(event) {
-    const { name, value } = event.target;
-    const novoEstado = { ...erros };
-    novoEstado[name] = validacoes[name](value);
-    setErros(novoEstado);
-  }
-  function possoEnviar() {
-    for (let campo in erros) {
-      if (!erros[campo].valido) {
-        return false;
-      }
-    }
-    return true;
-  }
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
         if (possoEnviar()) {
-          aoEnviar({ nome, sobrenome, cpf, novidades, promocoes });
+          aoEnviar({ email, senha });
         }
       }}
     >
       <TextField
-        value={nome}
+        value={email}
         onChange={(event) => {
-          setNome(event.target.value);
+          setEmail(event.target.value);
         }}
-        onBlur={validarCampos}
-        error={!erros.nome.valido}
-        helperText={erros.nome.texto}
-        id="nome"
-        label="Nome"
-        name="nome"
+        id="email"
+        name="email"
+        label="email"
+        type="email"
+        required
         variant="outlined"
         margin="normal"
         fullWidth
       />
       <TextField
-        value={sobrenome}
+        value={senha}
         onChange={(event) => {
-          setSobrenome(event.target.value);
-        }}
-        id="sobrenome"
-        name="sobrenome"
-        label="Sobrenome"
-        variant="outlined"
-        margin="normal"
-        fullWidth
-      />
-      <TextField
-        value={cpf}
-        onChange={(event) => {
-          setCpf(event.target.value);
+          setSenha(event.target.value);
         }}
         onBlur={validarCampos}
-        error={!erros.cpf.valido}
-        helperText={erros.cpf.texto}
-        id="CPF"
-        name="cpf"
-        label="CPF"
+        error={!erros.senha.valido}
+        helperText={erros.senha.texto}
+        id="senha"
+        name="senha"
+        label="senha"
+        type="password"
+        required
         variant="outlined"
         margin="normal"
         fullWidth
       />
-
-      <FormControlLabel
-        label="Promoções"
-        control={
-          <Switch
-            checked={promocoes}
-            onChange={(event) => {
-              setPromocoes(event.target.checked);
-            }}
-            name="promocoes"
-            color="primary"
-          />
-        }
-      />
-
-      <FormControlLabel
-        label="Novidades"
-        control={
-          <Switch
-            checked={novidades}
-            onChange={(event) => {
-              setNovidades(event.target.checked);
-            }}
-            name="novidades"
-            color="primary"
-          />
-        }
-      />
-
       <Button type="submit" variant="contained" color="primary">
         Próximo
       </Button>
@@ -110,4 +56,4 @@ function DadosPessoais({ aoEnviar, validacoes }) {
   );
 }
 
-export default DadosPessoais;
+export default DadosUsuario;
