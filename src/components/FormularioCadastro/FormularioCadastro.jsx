@@ -4,7 +4,11 @@ import DadosDeEntrega from "./DadosDeEntrega";
 import DadosDeUsuario from "./DadosDeUsuario";
 import DadosPessoais from "./DadosPessoais";
 
-function FormularioCadastro({aoEnviar, validarCPF }) {
+//Da maneira que temos nosso componente FormularoCadastro até esse momento ele recebe algumas propriedades que ele não faz nada com elas, o único que ele faz é repassar essas propriedades para os componentes filhos dele.
+
+//Essa maneira de trabalhar com propriedades é chamada de prop drilling e é considerada uma má prática.
+
+function FormularioCadastro({aoEnviar, validacoes }) {
   const [step, setStep] = useState(0)
   const [dadosColetados, setDadosColetados] = useState({})
 
@@ -16,9 +20,9 @@ function FormularioCadastro({aoEnviar, validarCPF }) {
   })
 
   const formularios = [
-    <DadosDeUsuario aoEnviar={coletarDados} />,
-    <DadosPessoais aoEnviar={coletarDados} validarCPF={validarCPF}/>,
-    <DadosDeEntrega aoEnviar={coletarDados} />,
+    <DadosDeUsuario aoEnviar={coletarDados} validacoes={validacoes}/>,
+    <DadosPessoais aoEnviar={coletarDados} validacoes={validacoes}/>,
+    <DadosDeEntrega aoEnviar={coletarDados} validacoes={validacoes}/>,
     <Typography variant='h5'>Obrigado pelo Cadastro</Typography>
   ]
   
